@@ -2,6 +2,9 @@ using Interlink.Core.Application;
 using Interlink.Infrastructure.Shared;
 using Interlink.Middlewares;
 using Interlink.Infrastructure.Persistence;
+using Interlink.Core.Application.Interfaces.Services;
+using Interlink.Infrastructure.Shared.Service;
+using Interlink.Core.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +16,15 @@ builder.Services.AddApplicationLayer();
 builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddDistributedMemoryCache(); 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 

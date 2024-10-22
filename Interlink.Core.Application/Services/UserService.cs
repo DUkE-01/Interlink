@@ -3,7 +3,6 @@ using Interlink.Core.Application.Interfaces.Repositories;
 using Interlink.Core.Application.ViewModels.User;
 using Interlink.Core.Application.Dtos.Email;
 using Interlink.Core.Domain.Entities;
-using Interlink.Infrastructure.Shared;
 using AutoMapper;
 using Interlink.Core.Domain.Settings;
 
@@ -14,13 +13,11 @@ namespace Interlink.Core.Application.Services
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
-        private readonly MailSettings _mailSettings;
 
         public UserService(IUserRepository userRepository, IEmailService emailService, IMapper mapper) : base(userRepository, mapper)
         {
             _userRepository = userRepository;
             _emailService = emailService;
-            _mailSettings = MailSettings.Value;
             _mapper = mapper;
         }
 
@@ -44,7 +41,7 @@ namespace Interlink.Core.Application.Services
             await _emailService.SendAsync(new EmailRequest
             {
                 To = userVm.Email,
-                From = _mailSettings.EmailFrom,
+                From = _emailService.MailSettings.EmailFrom,
                 Body = $"Se ha creado el usuario: {userVm.Username}",
                 Subject = "Creacion de usuario"
             });
