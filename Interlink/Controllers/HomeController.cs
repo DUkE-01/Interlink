@@ -1,3 +1,4 @@
+using Interlink.Middlewares;
 using Interlink.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -6,16 +7,19 @@ namespace Interlink.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ValidateUserSession _validateUserSession;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ValidateUserSession validateUserSession)
         {
-            _logger = logger;
+            _validateUserSession = validateUserSession;
         }
 
         public IActionResult Index()
         {
-            return View();
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
         }
 
         public IActionResult Privacy()
