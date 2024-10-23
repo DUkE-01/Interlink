@@ -86,10 +86,28 @@ namespace Interlink.Infrastructure.Persistence.Contexts
 
             #region Property Configurations
 
-            // Agrega aquí cualquier configuración adicional de propiedades, si es necesario.
-            // Por ejemplo, configuraciones de longitud de cadena, campos requeridos, etc.
+            modelBuilder.Entity<User>().
+               Property(user => user.Username)
+               .IsRequired();
+
+            modelBuilder.Entity<User>().
+              Property(user => user.PasswordHash)
+              .IsRequired();
+
+            modelBuilder.Entity<User>().
+              Property(user => user.Email)
+              .IsRequired();
+
+            modelBuilder.Entity<User>().
+               Property(user => user.ProfilePicture)
+               .IsRequired();
+
+            modelBuilder.Entity<User>().
+               Property(user => user.CreatedAt)
+               .IsRequired();
 
             #endregion
+
         }
     }
 }
