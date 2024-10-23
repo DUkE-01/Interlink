@@ -20,13 +20,8 @@ namespace Interlink.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Index()
         {
-
-            if (_validateUserSession.HasUser())
-            {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
-            }
             return View();
         }
 

@@ -5,10 +5,15 @@ using Interlink.Infrastructure.Persistence;
 using Interlink.Core.Application.Interfaces.Services;
 using Interlink.Infrastructure.Shared.Service;
 using Interlink.Core.Application.Services;
+using Interlink.Infrastructure.Persistence.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);

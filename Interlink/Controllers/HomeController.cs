@@ -20,6 +20,7 @@ namespace Interlink.Controllers
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
+            return View();
         }
 
         public IActionResult Privacy()

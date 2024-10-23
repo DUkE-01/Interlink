@@ -64,17 +64,23 @@ namespace Interlink.Infrastructure.Persistence.Contexts
                 .HasMany(p => p.Comments)
                 .WithOne(c => c.Post)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .OnDelete(DeleteBehavior.Cascade);
             #endregion
 
             #region Comment Relationships
 
-            
+
             modelBuilder.Entity<Comment>()
-                .HasMany(c => c.Replies)
-                .WithOne(cr => cr.Comment)
-                .HasForeignKey(cr => cr.CommentId)
-                .OnDelete(DeleteBehavior.Cascade); 
+     .HasOne(c => c.Post)
+     .WithMany(p => p.Comments)
+     .HasForeignKey(c => c.PostId)
+     .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Comment>()
+    .HasOne(c => c.User)
+    .WithMany(u => u.Comments)
+    .HasForeignKey(c => c.UserId)
+    .OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 
