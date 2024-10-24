@@ -1,3 +1,4 @@
+using Interlink.Core.Application.ViewModels.Post;
 using Interlink.Middlewares;
 using Interlink.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ namespace Interlink.Controllers
     public class HomeController : Controller
     {
         private readonly ValidateUserSession _validateUserSession;
+        private readonly Getposts
 
         public HomeController(ValidateUserSession validateUserSession)
         {
@@ -19,6 +21,12 @@ namespace Interlink.Controllers
             if (!_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
+            }
+            var posts = _postService.GetAllPosts(); 
+
+            if (posts == null)
+            {
+                posts = new List<PostViewModel>(); // Evitar null si no hay posts.
             }
             return View();
         }

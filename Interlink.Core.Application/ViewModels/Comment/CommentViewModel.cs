@@ -1,4 +1,5 @@
-﻿using Interlink.Core.Application.ViewModels;
+﻿using Interlink.Core.Application.ViewModels.CommentReply;
+using Interlink.Core.Application.ViewModels.Post;
 using Interlink.Core.Application.ViewModels.User;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Interlink.Application.ViewModels.Entities
+namespace Interlink.Core.Application.ViewModels.Comment
 {
     public class CommentViewModel
     {

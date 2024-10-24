@@ -11,7 +11,7 @@ namespace Interlink.Core.Application.ViewModels.User
     {
         [Required(ErrorMessage = "Debe colocar el correo del usuario")]
         [DataType(DataType.Text)]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Debe colocar una contraseña")]
         [DataType(DataType.Password)]

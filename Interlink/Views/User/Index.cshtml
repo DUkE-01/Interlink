@@ -62,21 +62,28 @@
 <body>
 
     <main class="form-signin w-100 m-auto">
+       
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
         <form asp-action="Index" asp-controller="User" method="post">
             <img class="mb-4" src="~/img/marca-logo.png" alt="Logo">
             <h1 class="h3 mb-3 fw-normal">Inicia Sesión</h1>
 
+            
             <div class="form-floating">
-                <input asp-for="Email" class="form-control" type="email" id="floatingInput" placeholder="name@example.com" required>
-                <label asp-for="Email">Email</label>
+                <input asp-for="Username" class="form-control @(ViewData.ModelState["Username"]?.Errors.Any() == true ? "is-invalid" : "")" id="floatingInput" placeholder="name@example.com">
+                <label asp-for="Username">Usuario</label>
+               @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
             </div>
 
+            
             <div class="form-floating">
-                <input asp-for= "Password" type="password" class="form-control" id="floatingPassword" placeholder="Password" required>
+                <input asp-for="Password" type="password" class="form-control @(ViewData.ModelState["PasswordHash"]?.Errors.Any() == true ? "is-invalid" : "")" id="floatingPassword" placeholder="Password">
                 <label asp-for="Password">Contraseña</label>
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
 
+            
             <div class="form-check text-start my-3">
                 <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
@@ -84,9 +91,11 @@
                 </label>
             </div>
 
+
             <div class="text-center mb-3">
                 <p>No tienes una cuenta? <a href="@Url.Action("Register", "User")">Regístrate aquí</a></p>
             </div>
+
 
             <button class="btn btn-primary w-100 py-2" type="submit">Entrar</button>
             <p class="mt-5 mb-3 text-body-secondary">&copy; 2024</p>

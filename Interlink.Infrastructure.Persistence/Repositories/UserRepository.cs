@@ -27,7 +27,7 @@ namespace Interlink.Infrastructure.Persistence.Repositories
         public async Task<User> LoginAsync(LoginViewModel loginVm)
         {
             string passwordEncrypt = PasswordEncryptation.ComputeSha256Hash(loginVm.Password);
-            User user = await _dbContext.Set<User>().FirstOrDefaultAsync(user => user.Username == loginVm.Email && user.PasswordHash == passwordEncrypt);
+            User user = await _dbContext.Set<User>().FirstOrDefaultAsync(user => user.Username == loginVm.Username && user.PasswordHash == passwordEncrypt);
             return user;
         }
     }

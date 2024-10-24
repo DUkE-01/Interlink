@@ -1,4 +1,7 @@
-﻿using Interlink.Application.ViewModels.Entities;
+﻿using Interlink.Core.Application.ViewModels.Comment;
+using Interlink.Core.Application.ViewModels.CommentReply;
+using Interlink.Core.Application.ViewModels.DirectMessage;
+using Interlink.Core.Application.ViewModels.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +18,7 @@ namespace Interlink.Core.Application.ViewModels.User
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string ProfilePicture { get; set; }
+        public string? ProfilePicture { get; set; }
 
         // Navegación
         public ICollection<PostViewModel> Posts { get; set; }

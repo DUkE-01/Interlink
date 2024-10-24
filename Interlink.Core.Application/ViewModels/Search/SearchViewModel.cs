@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Interlink.Core.Application.ViewModels.User;
 
-namespace Interlink.Core.Application.ViewModels
+namespace Interlink.Core.Application.ViewModels.Search
 {
     public class SearchViewModel
     {

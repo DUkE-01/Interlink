@@ -19,32 +19,39 @@ namespace Interlink.Controllers
             _validateUserSession = validateUserSession;
         }
 
-        [HttpGet]
+      
         public IActionResult Index()
         {
+            if (_validateUserSession.HasUser())
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Index(LoginViewModel vm)
         {
+            if (_validateUserSession.HasUser())
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(vm);
             }
-            if (_validateUserSession.HasUser())
-            {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
-            }
+           
             UserViewModel userVm = await _userService.Login(vm);
             if (userVm != null)
             {
                 HttpContext.Session.Set<UserViewModel>("user", userVm);
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+                return RedirectToAction( "Index", "Home");
             }
+
             else
             {
-                ModelState.AddModelError("userValidation", "Datos de acceso incorrecto");
+                ModelState.AddModelError("userValidation", "Datos de acceso incorrectos");
             }
 
             return View(vm);
@@ -56,16 +63,14 @@ namespace Interlink.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
-            if (_validateUserSession.HasUser())
-            {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
-            }
-            return View(new SaveUserViewModel());
+            
+            return View();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm)
         {
             if (!ModelState.IsValid)
