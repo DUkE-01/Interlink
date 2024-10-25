@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Interlink.Core.Domain.Entities
 {
-    public class Search
+    public class SearchResult
     {
         public int Id { get; set; }
         public int UserId { get; set; }

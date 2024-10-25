@@ -1,5 +1,4 @@
-﻿
-using Interlink.Core.Application.Dtos.Email;
+﻿using Interlink.Core.Application.Dtos.Email;
 using Interlink.Core.Domain.Settings;
 
 

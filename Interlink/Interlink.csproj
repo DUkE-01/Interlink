@@ -20,7 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Interlink.Core.Application\Interlink.Core.Application.csproj" />
     <ProjectReference Include="..\Interlink.Core.Domain\Interlink.Core.Domain.csproj" />
-    <ProjectReference Include="..\Interlink.Infrastructure.Identity\Interlink.Infrastructure.Identity.csproj" />
     <ProjectReference Include="..\Interlink.Infrastructure.Persistence\Interlink.Infrastructure.Persistence.csproj" />
     <ProjectReference Include="..\Interlink.Infrastructure.Shared\Interlink.Infrastructure.Shared.csproj" />
   </ItemGroup>

@@ -7,6 +7,8 @@ using Interlink.Infrastructure.Shared.Service;
 using Interlink.Core.Application.Services;
 using Interlink.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Interlink.Core.Application.Interfaces.Repositories;
+using Interlink.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IPostRepository, PostRepository>();
+builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddSession(options =>
 {

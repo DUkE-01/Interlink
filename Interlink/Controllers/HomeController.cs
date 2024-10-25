@@ -1,3 +1,4 @@
+using Interlink.Core.Application.Interfaces.Services;
 using Interlink.Core.Application.ViewModels.Post;
 using Interlink.Middlewares;
 using Interlink.Models;
@@ -9,26 +10,28 @@ namespace Interlink.Controllers
     public class HomeController : Controller
     {
         private readonly ValidateUserSession _validateUserSession;
-        private readonly Getposts
+        private readonly IPostService _postService;
 
-        public HomeController(ValidateUserSession validateUserSession)
+
+        public HomeController(ValidateUserSession validateUserSession, IPostService postService)
         {
             _validateUserSession = validateUserSession;
+            _postService = postService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
             if (!_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
-            var posts = _postService.GetAllPosts(); 
+            var posts = await _postService.GetAllViewModelWithInclude();
 
-            if (posts == null)
+            if (posts == null || !posts.Any())
             {
-                posts = new List<PostViewModel>(); // Evitar null si no hay posts.
+                posts = new List<PostViewModel>();
             }
-            return View();
+            return View(posts);
         }
 
         public IActionResult Privacy()

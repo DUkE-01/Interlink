@@ -13,7 +13,7 @@ namespace Interlink.Infrastructure.Persistence.Contexts
         public DbSet<Comment> Comments { get; set; }
         public DbSet<CommentReply> CommentReplies { get; set; }
         public DbSet<DirectMessage> DirectMessages { get; set; }
-        public DbSet<Search> Searches { get; set; }
+        public DbSet<SearchResult> Searches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
