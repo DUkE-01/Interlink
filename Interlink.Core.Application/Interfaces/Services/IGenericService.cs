@@ -7,7 +7,7 @@
     {
         Task Update(SaveViewModel vm, int id);
 
-        Task<SaveViewModel> Add(SaveViewModel vm);
+        Task<SaveViewModel> Add(SaveViewModel vm, string? userId);
 
         Task Delete(int id);
 

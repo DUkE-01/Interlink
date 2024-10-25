@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Interlink.Core.Application.Interfaces.Repositories;
 using Interlink.Core.Application.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+
 
 namespace Interlink.Core.Application.Services
 {
@@ -29,10 +26,10 @@ namespace Interlink.Core.Application.Services
             await _repository.UpdateAsync(entity, id);
         }
 
-        public virtual async Task<SaveViewModel> Add(SaveViewModel vm)
+        public virtual async Task<SaveViewModel> Add(SaveViewModel vm, string? userId)
         {
             Model entity = _mapper.Map<Model>(vm);
-
+            
             entity = await _repository.AddAsync(entity);
 
             SaveViewModel entityVm = _mapper.Map<SaveViewModel>(entity);

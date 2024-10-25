@@ -9,6 +9,7 @@ using Interlink.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Interlink.Core.Application.Interfaces.Repositories;
 using Interlink.Infrastructure.Persistence.Repositories;
+using Interlink.Core.Application.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddAutoMapper(typeof(GeneralProfile));
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddPersistenceInfrastructure(builder.Configuration);

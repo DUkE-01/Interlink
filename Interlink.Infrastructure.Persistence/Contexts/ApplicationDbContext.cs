@@ -65,6 +65,11 @@ namespace Interlink.Infrastructure.Persistence.Contexts
                 .WithOne(c => c.Post)
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Post>()
+        .HasOne(p => p.User)
+        .WithMany(u => u.Posts) 
+        .HasForeignKey(p => p.UserId);
             #endregion
 
             #region Comment Relationships

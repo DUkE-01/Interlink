@@ -34,7 +34,7 @@ namespace Interlink.Core.Application.Services
             return userVm;
         }
 
-        public override async Task<SaveUserViewModel> Add(SaveUserViewModel vm)
+        public async Task<SaveUserViewModel> Add(SaveUserViewModel vm)
         {
             SaveUserViewModel userVm = await base.Add(vm);
 

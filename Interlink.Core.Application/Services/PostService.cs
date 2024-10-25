@@ -34,15 +34,13 @@ public class PostService : GenericService<SavePostViewModel, PostViewModel, Post
         return _mapper.Map<SavePostViewModel>(post);
     }
 
-    public override async Task<SavePostViewModel> Add(SavePostViewModel vm)
+    public async Task<SavePostViewModel> Add(SavePostViewModel vm, int userId)
     {
-        
         var post = _mapper.Map<Post>(vm);
+        post.UserId = userId;
 
-        
         post = await _postRepository.AddAsync(post);
 
-        
         return _mapper.Map<SavePostViewModel>(post);
     }
 
