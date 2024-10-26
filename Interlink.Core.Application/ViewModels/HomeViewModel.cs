@@ -7,13 +7,12 @@ namespace Interlink.Core.Application.ViewModels.Home
 {
     public class HomeViewModel
     {
-        public List<PostViewModel> Posts { get; set; } 
+        public List<PostViewModel> Posts { get; set; } = new List<PostViewModel>();
         public SavePostViewModel NewPost { get; set; }
         public List<UserViewModel> Username { get; set; }
-        public List<CommentViewModel> Commments { get; set; }
+        public List<CommentViewModel> Comments { get; set; }
         public List<CommentViewModel> Content { get; set; }
- 
-        public List<CommentReplyViewModel> Replies { get; set; }
-        public List<CommentReplyViewModel> Comments { get; set; }
+        public List<CommentViewModel> Replies { get; set; }
+        public List<CommentReplyViewModel> CommentsReplies { get; set; }
     }
 }

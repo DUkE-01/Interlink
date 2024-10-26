@@ -4,6 +4,9 @@ using Interlink.Core.Application.ViewModels.Post;
 using Interlink.Core.Application.ViewModels.Search;
 using Interlink.Core.Application.ViewModels.Home;
 using Interlink.Middlewares;
+using Interlink.Core.Application.ViewModels.Comment;
+using Interlink.Core.Application.ViewModels.CommentReply;
+using Interlink.Core.Application.ViewModels.User;
 
 namespace Interlink.Controllers
 {
@@ -17,7 +20,7 @@ namespace Interlink.Controllers
             _postService = postService;
             _validateUserSession = validateUserSession;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             if (!_validateUserSession.HasUser())
@@ -25,13 +28,20 @@ namespace Interlink.Controllers
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
 
-            var viewModel = new HomeViewModel
+            var posts = await _postService.GetAllViewModelWithInclude();
+
+            var Model = new HomeViewModel
             {
-                Posts = await _postService.GetAllViewModelWithInclude(),
-                NewPost = new SavePostViewModel()
+                Posts = posts,
+                NewPost = new SavePostViewModel(),
+                Username = new List<UserViewModel>(), 
+                Comments = new List<CommentViewModel>(), 
+                Content = new List<CommentViewModel>(), 
+                Replies = new List<CommentViewModel>(), 
+                CommentsReplies= new List<CommentReplyViewModel>() 
             };
 
-            return View(viewModel); 
+            return View(Model); 
         }
 
 
