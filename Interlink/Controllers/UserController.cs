@@ -71,7 +71,7 @@ namespace Interlink.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(SaveUserViewModel vm)
+        public async Task<IActionResult> Register(SaveUserViewModel vm, string userId)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +82,7 @@ namespace Interlink.Controllers
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
 
-            await _userService.Add(vm);
+            await _userService.Add(vm, userId);
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 

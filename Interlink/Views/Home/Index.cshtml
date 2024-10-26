@@ -1,6 +1,8 @@
 @using Interlink.Core.Application.ViewModels.Search;
 @using Interlink.Core.Application.ViewModels.Post;
-@model List<PostViewModel>
+@using Interlink.Core.Application.ViewModels.Home;
+@model List<HomeViewModel>
+
 
 @{
     ViewData["Title"] = "Home";
@@ -95,15 +97,14 @@
                     }
                     else
                     {
-                        @foreach (PostViewModel post in Model)
+                        @foreach (HomeViewModel post in Model)
                         {
                             <div class="card post-card mb-4">
                                 <div class="card-body">
-                                    <h5 class="card-title">@post.User.Username</h5>
+                                    <h5 class="card-title">@post.Username</h5>
                                     <p class="card-text post-content">@post.Content</p>
-                                    <p class="text-muted small">@post.CreatedAt.ToString("g")</p>
 
-                                    <!-- Comments Section -->
+                                    
                                     <div class="mt-4">
                                         @if (post.Comments.Any())
                                         {
@@ -115,7 +116,7 @@
                                                         <strong>@comment.User.Username</strong>: @comment.Content
                                                         <p class="small text-muted">@comment.CreatedAt.ToString("g")</p>
 
-                                                        <!-- Replies Section -->
+                                                        
                                                         @if (comment.Replies.Any())
                                                         {
                                                             <ul class="list-group mt-2">
@@ -129,7 +130,7 @@
                                                             </ul>
                                                         }
 
-                                                        <!-- Reply Form -->
+                                                        
                                                         <form asp-action="ReplyToComment" asp-controller="Comment" method="post" class="mt-2">
                                                             <textarea class="form-control mb-2" name="Content" placeholder="Responder" rows="1"></textarea>
                                                             <input type="hidden" name="CommentId" value="@comment.Id" />
@@ -140,7 +141,7 @@
                                             </ul>
                                         }
 
-                                        <!-- Add Comment Form -->
+                                        
                                         <form asp-action="AddComment" asp-controller="Comment" method="post" class="mt-3">
                                             <textarea class="form-control mb-2" name="Content" placeholder="Comentar" rows="2"></textarea>
                                             <input type="hidden" name="PostId" value="@post.Id" />

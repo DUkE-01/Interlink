@@ -34,9 +34,9 @@ namespace Interlink.Core.Application.Services
             return userVm;
         }
 
-        public async Task<SaveUserViewModel> Add(SaveUserViewModel vm)
+        public async Task<SaveUserViewModel> Add(SaveUserViewModel vm, string userId)
         {
-            SaveUserViewModel userVm = await base.Add(vm);
+            SaveUserViewModel userVm = await base.Add(vm, userId);
 
             await _emailService.SendAsync(new EmailRequest
             {

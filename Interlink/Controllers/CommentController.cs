@@ -15,26 +15,26 @@ namespace Interlink.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddComment(SaveCommentViewModel commentVm)
+        public async Task<IActionResult> AddComment(SaveCommentViewModel commentVm, string userId)
         {
             if (!ModelState.IsValid)
             {
                 return View(commentVm);
             }
 
-            await _commentService.Add(commentVm);
+            await _commentService.Add(commentVm, userId);
             return RedirectToAction("Index", "Post");
         }
 
         [HttpPost]
-        public async Task<IActionResult> ReplyToComment(SaveCommentViewModel replyVm)
+        public async Task<IActionResult> ReplyToComment(SaveCommentViewModel replyVm, string userId)
         {
             if (!ModelState.IsValid)
             {
                 return View(replyVm);
             }
 
-            await _commentService.Add(replyVm);
+            await _commentService.Add(replyVm, userId);
             return RedirectToAction("Index", "Post");
         }
     }

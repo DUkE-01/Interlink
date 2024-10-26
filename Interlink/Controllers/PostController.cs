@@ -1,6 +1,8 @@
-﻿using Interlink.Core.Application.Interfaces.Services;
+﻿using Microsoft.AspNetCore.Mvc;
+using Interlink.Core.Application.Interfaces.Services;
 using Interlink.Core.Application.ViewModels.Post;
-using Microsoft.AspNetCore.Mvc;
+using Interlink.Core.Application.ViewModels.Search;
+using Interlink.Core.Application.ViewModels.Home;
 using Interlink.Middlewares;
 
 namespace Interlink.Controllers
@@ -22,24 +24,28 @@ namespace Interlink.Controllers
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
-            var posts = await _postService.GetAllViewModelWithInclude();
-            return View(posts);
+
+            var viewModel = new HomeViewModel
+            {
+                Posts = await _postService.GetAllViewModelWithInclude(),
+                NewPost = new SavePostViewModel()
+            };
+
+            return View(viewModel); 
         }
 
-        public async Task<IActionResult> Create()
+
+        public async Task<IActionResult> Create(int id)
         {
             if (!_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
-            SavePostViewModel vm = new();
-            vm.Content = (await _postService.GetAllViewModel()).FirstOrDefault()?.Content;
-            vm.CreatedAt = (await _postService.GetAllViewModel()).FirstOrDefault()?.CreatedAt ?? DateTime.Now;
-            return View("SavePost", vm);
+            return View(new SavePostViewModel());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(SavePostViewModel vm)
+        public async Task<IActionResult> Create(SavePostViewModel vm, string userId)
         {
             if (!_validateUserSession.HasUser())
             {
@@ -48,32 +54,26 @@ namespace Interlink.Controllers
 
             if (!ModelState.IsValid)
             {
-                vm.Content = (await _postService.GetAllViewModel()).FirstOrDefault()?.Content;
-                return View("SavePost", vm);
+                return View(vm);
             }
 
-            string userId = User.Identity.Name;
-            SavePostViewModel postVm = await _postService.Add(vm, userId);
-
-            return RedirectToRoute(new { controller = "Post", action = "Index" });
+            await _postService.Add(vm, userId);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-
             if (!_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "User", action = "Index" });
             }
 
             SavePostViewModel vm = await _postService.GetByIdSaveViewModel(id);
-            vm.Content = (await _postService.GetAllViewModel()).FirstOrDefault()?.Content;
-            vm.CreatedAt = (await _postService.GetAllViewModel()).FirstOrDefault()?.CreatedAt ?? DateTime.Now;
-            return View("SavePost", vm);
+            return View(vm);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SavePostViewModel vm, int id)
+        public async Task<IActionResult> Edit(SavePostViewModel vm, string UserId)
         {
             if (!_validateUserSession.HasUser())
             {
@@ -82,15 +82,12 @@ namespace Interlink.Controllers
 
             if (!ModelState.IsValid)
             {
-                vm.Content = (await _postService.GetAllViewModel()).FirstOrDefault()?.Content;
-                return View("SavePost", vm);
+                return View(vm);
             }
 
-            await _postService.Update(vm, id);
-            return RedirectToRoute(new { controller = "Post", action = "Index" });
+            await _postService.Update(vm, vm.UserId);
+            return RedirectToAction("Index");
         }
-
-
 
         public async Task<IActionResult> Delete(int id)
         {
@@ -111,27 +108,7 @@ namespace Interlink.Controllers
             }
 
             await _postService.Delete(id);
-
-            string basePath = $"/Images/Products/{id}";
-            string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
-
-            if (Directory.Exists(path))
-            {
-                DirectoryInfo directory = new(path);
-
-                foreach (FileInfo file in directory.GetFiles())
-                {
-                    file.Delete();
-                }
-                foreach (DirectoryInfo folder in directory.GetDirectories())
-                {
-                    folder.Delete(true);
-                }
-
-                Directory.Delete(path);
-            }
-
-            return RedirectToRoute(new { controller = "Post", action = "Index" });
+            return RedirectToAction("Index");
         }
     }
 }
